@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Showly - About Us</title>
+  <style>
+    /* General Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 2rem 20px;
+      margin-top: 60px;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(0, 0, 0, 0.9);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .logo {
+      color: #e11d48;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a {
+      margin-left: 20px;
+      color: #ccc;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #e11d48;
+    }
+    
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #e11d48;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: white;
+      margin-left: 20px;
+    }
+
+    /* Sections */
+    .section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* About Us Specific Styles */
+    .about-content {
+      max-width: 800px;
+      margin: auto;
+      text-align: center;
+    }
+
+    .about-content p {
+      margin-bottom: 1.5rem;
+      font-size: 1.1rem;
+      color: #ccc;
+    }
+
+    .team-cards {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .team-card {
+      background: #222;
+      padding: 2rem;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+      transition: transform 0.3s ease;
+    }
+
+    .team-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .team-card h3 {
+      color: #e11d48;
+      margin-bottom: 0.5rem;
+    }
+
+    .team-card p {
+      color: #aaa;
+      margin-bottom: 0.5rem;
+    }
+    
+    /* Buttons */
+    .btn {
+      background: #e11d48;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #be123c;
+    }
+    
+    /* Footer */
+    .footer {
+      text-align: center;
+      background: #000;
+      padding: 20px;
+      margin-top: 2rem;
+      color: #888;
+    }
+
+    @media (max-width: 768px) {
+      .card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="nav-container">
+      <h1 class="logo">Showly</h1>
+      <div class="nav-links">
+        <a href="./landing.html">Home</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <section id="about-us" class="section">
+      <h2 class="section-title">Our Story</h2>
+      <div class="about-content">
+          <p>Showly was born from a simple idea: to make movie-going a seamless and enjoyable experience. As three second-year Computer Science students at Chitkara University, we were tired of the hassle of booking tickets and wanted to create a platform that was not only functional but also visually stunning. We're a team passionate about technology, design, and, most importantly, movies.</p>
+          <p>This project is our way of combining our academic knowledge with our love for cinema. Every line of code and every design choice is a reflection of our commitment to creating a product that we would love to use ourselves.</p>
+      </div>
+    </section>
+
+    <section id="our-team" class="section">
+      <h2 class="section-title">Meet the Creators</h2>
+      <div class="team-cards">
+          <div class="team-card">
+              <h3>Atharav Tarika</h3>
+              <p><strong>Role:</strong> Team Leader </p>
+          </div>
+          <div class="team-card">
+              <h3>Amanatpreet Kaur</h3>
+              <p><strong>Role:</strong> Front-End </p>
+          </div>
+          <div class="team-card">
+              <h3>Akhil Azad</h3>
+              <p><strong>Role:</strong> Full-Stack </p>
+          </div>
+      </div>
+    </section>
+  </div>
+  
+  <footer class="footer">
+    <p>© 2025 Showly. All rights reserved.</p>
+  </footer>
+</body>
+</html>

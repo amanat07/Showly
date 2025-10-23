@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Showly Ticket Booking</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .card p.stars {
+      color: #f1c40f;
+      font-size: 1.2rem;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(0, 0, 0, 0.9);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      padding: 1rem;
+    }
+
+    .logo {
+      color: #e11d48;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .nav-links a {
+      margin-left: 20px;
+      color: #ccc;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #e11d48;
+    }
+
+    /* Hero Section */
+    .hero {
+      height: 100vh;
+      background: linear-gradient(to right, #7f1d1d, #000);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 2rem;
+      margin-top: 60px; /* Offset for fixed navbar */
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      color: #ccc;
+      font-size: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Buttons */
+    .btn {
+      background: #e11d48;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #be123c;
+    }
+
+    /* Sections */
+    .section {
+      padding: 80px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Cards */
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .card {
+      background: #333;
+      padding: 1rem;
+      border-radius: 10px;
+      width: 300px;
+      text-align: center;
+    }
+
+    .card img {
+      width: 100%;
+      height: 400px; /* Fixed height for consistency */
+      object-fit: cover; /* Ensures image covers the area without distortion */
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    /* Contact */
+    .contact-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+    }
+
+    .contact-grid div,
+    .contact-grid form {
+      flex: 1;
+      min-width: 280px;
+    }
+
+    .contact-grid form input,
+    .contact-grid form textarea {
+      width: 100%;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+      border: none;
+      border-radius: 6px;
+      background: #444;
+      color: white;
+    }
+
+    /* Footer */
+    .footer {
+      text-align: center;
+      background: #000;
+      padding: 20px;
+      margin-top: 2rem;
+      color: #888;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none; /* Hide nav links on small screens, consider adding a hamburger menu */
+      }
+      .hero {
+        margin-top: 0;
+        height: 80vh;
+      }
+      .card {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Navbar -->
+  <nav class="navbar">
+    <div class="nav-container">
+      <h1 class="logo">Showly</h1>
+      <div class="nav-links">
+        <a href="./about.html">About</a>
+        <a href="./login.html">Login</a>
+
+        
+      </div>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero-content">
+      <h2>Experience Movies Like Never Before!</h2>
+      <p>
+        Book tickets for the latest blockbusters at theaters.
+      </p>
+      <a href="./login.html" class="btn">Book Now</a>
+    </div>
+  </section>
+
+  <!-- Now Showing -->
+  <section id="now-showing" class="section">
+    <h2 class="section-title">Now Showing</h2>
+    <div class="cards">
+      <div class="card">
+        <img src="./photos/dhadak2.png" alt="Dhadak 2 Poster" />
+        <h3>Dhadak 2</h3>
+        <p>Social romantic drama</p>
+        <a href="./login.html" class="btn">Book Tickets</a>
+      </div>
+      <div class="card">
+        <img src="./photos/sonofsardaar2.png" alt="Son of Sardaar 2 Poster" />
+        <h3>Son of Sardaar 2</h3>
+        <p>Action comedy</p>
+        <a href="./login.html" class="btn">Book Tickets</a>
+      </div>
+      <div class="card">
+        <img src="./photos/saiyaara.png" alt="Saiyaara Poster" />
+        <h3>Saiyaara</h3>
+        <p>Romantic drama</p>
+        <a href="./login.html" class="btn">Book Tickets</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Offers -->
+  <section id="offers" class="section">
+    <h2 class="section-title">Special Offers</h2>
+    <div class="cards">
+      <div class="card">
+        <h3>🎟️ Weekday Discount</h3>
+        <p>Get 20% off on tickets on Tuesday and Thursday.</p>
+        <a href="./login.html" class="btn">Grab Offer</a>
+      </div>
+      <div class="card">
+        <h3>Combo Pack</h3>
+        <p>Get 2 tickets + 2 popcorns + 1 drink at just ₹599! Limited time offer.</p>
+        <a href="./login.html" class="btn">Grab Combo</a>
+      </div>
+      <div class="card">
+        <h3>📚 Student Special</h3>
+        <p>Show your student ID to get 25% off your ticket.</p>
+        <a href="./login.html" class="btn">Apply</a>
+      </div>
+    </div>
+  </section>
+  
+  <!-- Movie Reviews -->
+  <section id="reviews" class="section">
+    <h2 class="section-title">What People Are Saying</h2>
+    <div class="cards">
+      <div class="card">
+        <img src="./photos/dhadak2.png" alt="Dhadak 2 Poster" />
+        <h3>Dhadak 2</h3>
+        <p class="stars">⭐⭐⭐⭐ 4.2/5</p>
+        <p>"A heartfelt romantic drama!" - User123</p>
+      </div>
+      <!-- Add more review cards as needed -->
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section id="contact" class="section">
+    <h2 class="section-title">Contact Us</h2>
+    <div class="contact-grid">
+      <div>
+        <p><strong>Email:</strong> support@showly.com</p>
+        <p><strong>Phone:</strong> +91 9466903617</p>
+        <p><strong>Address:</strong> Chitkara University, Punjab</p>
+      </div>
+      <form>
+        <input type="text" placeholder="Your Name" required />
+        <input type="email" placeholder="Your Email" required />
+        <textarea placeholder="Your Message" rows="4" required></textarea>
+        <button type="submit" class="btn">Send Message</button>
+      </form>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2025 Showly. All rights reserved.</p>
+  </footer>
+</body>
+</html>

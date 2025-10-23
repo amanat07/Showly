@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Now Showing | Showly</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Navbar */
+    .navbar {
+      background: rgba(0, 0, 0, 0.9);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center; /* Added for vertical alignment of nav items */
+      padding: 1rem;
+    }
+
+    .logo {
+      color: #e11d48;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .nav-links {
+        display: flex; /* Ensure nav links are flexible */
+        align-items: center;
+    }
+
+    .nav-links a {
+      margin-left: 20px;
+      color: #ccc;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #e11d48;
+    }
+
+    /* === Profile Icon and Dropdown Styles (Added/Updated) === */
+
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #e11d48;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: white;
+      margin-left: 20px;
+    }
+
+    .profile-dropdown-container {
+      position: relative;
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #222;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+      min-width: 150px;
+      z-index: 2000;
+      padding: 10px 0;
+      display: none;
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .profile-dropdown.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .profile-dropdown a {
+      display: block;
+      padding: 10px 20px;
+      color: #ccc;
+      text-align: left;
+      transition: background-color 0.2s;
+      margin-left: 0; /* Override nav-links a margin */
+    }
+
+    .profile-dropdown a:hover {
+      background-color: #444;
+      color: #e11d48;
+    }
+
+    .profile-dropdown .logout {
+      border-top: 1px solid #444;
+      margin-top: 5px;
+      padding-top: 10px;
+      color: #e11d48;
+    }
+    
+    /* === End of Profile Icon and Dropdown Styles === */
+
+
+    /* Header */
+    .header {
+      padding: 120px 20px 40px;
+      text-align: center;
+      background: linear-gradient(to right, #7f1d1d, #000);
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #ccc;
+      font-size: 1.1rem;
+    }
+
+    /* Section */
+    .section {
+      padding: 60px 20px;
+      max-width: 1200px;
+      margin: auto;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    /* Search bar */
+    .search-bar {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+
+    .search-bar input {
+      padding: 10px;
+      width: 60%;
+      max-width: 400px;
+      border-radius: 6px;
+      border: none;
+      outline: none;
+      font-size: 1rem;
+    }
+
+    /* Cards */
+    .cards {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .card {
+      background: #333;
+      padding: 1rem;
+      border-radius: 10px;
+      width: 280px;
+      text-align: center;
+      transition: transform 0.3s;
+    }
+
+    .card img {
+      width: 100%;
+      height: 400px;
+      object-fit: cover;
+      border-radius: 6px;
+      margin-bottom: 10px;
+    }
+
+    .card h3 {
+      margin-bottom: 0.5rem;
+    }
+
+    .card p {
+      color: #aaa;
+      font-size: 0.9rem;
+      margin-bottom: 10px;
+    }
+
+    .btn {
+      background: #e11d48;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .btn:hover {
+      background: #be123c;
+    }
+    /* Footer Styling */
+    .footer {
+      background: #000;
+      padding: 50px 0 20px;
+      color: #ccc;
+      font-size: 0.95rem;
+      margin-top: 3rem;
+    }
+
+    .footer-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 30px;
+      padding: 0 20px;
+    }
+
+    .footer-col {
+      flex: 1 1 220px;
+      min-width: 200px;
+    }
+
+    .footer-col h4 {
+      color: #e11d48;
+      font-size: 1.2rem;
+      margin-bottom: 15px;
+      font-weight: bold;
+      position: relative;
+    }
+
+    .footer-col ul {
+      list-style: none;
+    }
+
+    .footer-col ul li {
+      margin-bottom: 10px;
+    }
+
+    .footer-col ul li a {
+      color: #ccc;
+      transition: color 0.3s, padding-left 0.3s;
+    }
+
+    .footer-col ul li a:hover {
+      color: #e11d48;
+      padding-left: 5px;
+    }
+
+    .footer-col p, .footer-col address {
+      margin-bottom: 10px;
+      color: #aaa;
+    }
+
+    .footer-social-links a {
+      margin-right: 15px;
+      display: inline-block;
+      font-size: 1rem;
+      transition: color 0.3s, transform 0.3s;
+    }
+
+    .footer-social-links a:hover {
+      color: #e11d48;
+      transform: translateY(-3px);
+    }
+
+    .footer-bottom {
+      text-align: center;
+      margin-top: 30px;
+      padding-top: 15px;
+      border-top: 1px solid #333;
+      color: #888;
+      font-size: 0.85rem;
+    }
+
+    @media (max-width: 768px) {
+      .footer-container {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      .footer-col {
+        flex: 1 1 100%;
+      }
+
+      .footer-social-links a {
+        margin: 0 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <h1 class="logo">Showly</h1>
+      <div class="nav-links">
+        <a href="./main.html">Home</a>
+        <a href="./offers.html">Offers</a>
+        <a href="./tickets.html">My Tickets</a>
+        <a href="./contact.html">Contact</a>
+
+        <div class="profile-dropdown-container">
+            <div class="profile-avatar" onclick="toggleDropdown()">A</div>
+            <div class="profile-dropdown" id="profileDropdown">
+              <a href="./profile.html">Profile</a>
+              <a href="#" class="logout">Log Out</a>
+            </div>
+        </div>
+        </div>
+    </div>
+  </nav>
+
+  <header class="header">
+    <h1>Now Showing</h1>
+    <p>Catch the latest movies playing in theaters near you</p>
+  </header>
+
+  <section class="section">
+    <h2 class="section-title">Movies in Theaters</h2>
+
+    <div class="search-bar">
+      <input type="text" id="movieSearch" placeholder="Search for a movie..." onkeyup="searchMovies()" />
+    </div>
+
+    <div class="cards" id="movieCards">
+      <div class="card">
+        <img src="./photos/dhadak2.png" alt="Dhadak 2 Poster" />
+        <h3>Dhadak 2</h3>
+        <p>Social romantic drama</p>
+        <a href="./seat.html" class="btn">Book Tickets</a>
+      </div>
+      <div class="card">
+        <img src="./photos/sonofsardaar2.png" alt="Son of Sardaar 2 Poster" />
+        <h3>Son of Sardaar 2</h3>
+        <p>Action comedy</p>
+        <a href="./seat.html" class="btn">Book Tickets</a>
+      </div>
+      <div class="card">
+        <img src="./photos/saiyaara.png" alt="Saiyaara Poster" />
+        <h3>Saiyaara</h3>
+        <p>Romantic drama</p>
+        <a href="./seat.html" class="btn">Book Tickets</a>
+      </div>
+      <div class="card">
+        <img src="./photos/jawan.png" alt="Jawan Poster" />
+        <h3>Jawan</h3>
+        <p>Action thriller</p>
+        <a href="./seat.html" class="btn">Book Tickets</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="./showing.html">Now Showing</a></li>
+          <li><a href="./offers.html">Special Offers</a></li>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./tickets.html">My Tickets</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About Showly</h4>
+        <ul>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./offers.html">Offers</a></li>
+          <li><a href="./terms.html">Terms & Conditions</a></li>
+          <li><a href="./privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <p>Email: support@showly.com</p>
+        <p>Phone: +91 9999999999</p>
+        <address>Chitkara University, Punjab</address>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="footer-social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+            <a href="#">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 Showly. All rights reserved.</p>
+    </div>
+  </footer>
+
+
+  <script>
+    function searchMovies() {
+      let input = document.getElementById("movieSearch").value.toLowerCase();
+      let cards = document.querySelectorAll(".card");
+
+      cards.forEach(card => {
+        let title = card.querySelector("h3").innerText.toLowerCase();
+        // Use 'block' for display to ensure it shows correctly, or just 'flex' if the parent is flex
+        card.style.display = title.includes(input) ? "block" : "none";
+      });
+    }
+
+    // === Dropdown JavaScript (Added) ===
+    function toggleDropdown() {
+        document.getElementById("profileDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+      if (!event.target.matches('.profile-avatar')) {
+        var dropdowns = document.getElementsByClassName("profile-dropdown");
+        for (var i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+    // === End of Dropdown JavaScript ===
+  </script>
+</body>
+</html>

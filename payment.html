@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Payment & Confirmation - Showly</title>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <style>
+        /* (The CSS is identical to your provided code and is kept for completeness) */
+        /* General Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #111;
+            color: #fff;
+            line-height: 1.6;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        a {
+            color: inherit;
+            text-decoration: none;
+        }
+
+        /* Navbar (Same as other pages) */
+        .navbar {
+            background: rgba(0, 0, 0, 0.9);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem;
+        }
+
+        .logo {
+            color: #e11d48;
+            font-weight: bold;
+            font-size: 1.5rem;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+        }
+
+        .nav-links a {
+            margin-left: 20px;
+            color: #ccc;
+            transition: 0.3s;
+        }
+
+        .nav-links a:hover {
+            color: #e11d48;
+        }
+
+        .profile-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background-color: #e11d48;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: white;
+            margin-left: 20px;
+        }
+        
+        /* Main Content & Summary */
+        .main-content {
+            flex: 1;
+            padding: 80px 20px 40px;
+            max-width: 800px;
+            margin: auto;
+            width: 100%;
+        }
+
+        .payment-card {
+            background: #222;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+            text-align: center;
+        }
+
+        .payment-card h2 {
+            font-size: 2.2rem;
+            color: #e11d48;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #333;
+            padding-bottom: 15px;
+        }
+
+        .summary-group {
+            text-align: left;
+            margin-bottom: 1.5rem;
+            padding: 15px;
+            border-bottom: 1px dashed #444;
+        }
+
+        .summary-group p {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .summary-group strong {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .summary-group span {
+            color: #ccc;
+        }
+
+        .final-total {
+            background: #333;
+            padding: 15px;
+            border-radius: 6px;
+            margin-top: 2rem;
+        }
+
+        .final-total p {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #fff;
+        }
+        
+        .pay-btn {
+            width: 100%;
+            padding: 15px;
+            background: #1d7d3d; /* Green for payment button */
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-top: 2rem;
+            font-weight: bold;
+        }
+
+        .pay-btn:hover {
+            background: #155e2d;
+        }
+
+        /* Footer (Same as other pages) */
+        .footer {
+            background: #000;
+            color: #888;
+            padding: 40px 20px;
+            margin-top: 2rem;
+        }
+
+        .footer-container {
+            max-width: 1200px;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: left;
+        }
+
+        .footer-col h4 {
+            color: #fff;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #e11d48;
+            display: inline-block;
+            padding-bottom: 5px;
+        }
+
+        .footer-col ul {
+            list-style: none;
+        }
+
+        .footer-col ul li {
+            margin-bottom: 10px;
+        }
+
+        .footer-col ul li a {
+            color: #ccc;
+            transition: color 0.3s;
+        }
+
+        .footer-col ul li a:hover {
+            color: #e11d48;
+        }
+
+        .footer-col p, .footer-col address {
+            font-size: 0.9rem;
+            color: #ccc;
+        }
+
+        .footer-social-links a {
+            color: #ccc;
+            font-size: 1.5rem;
+            margin-right: 15px;
+            transition: color 0.3s;
+        }
+
+        .footer-social-links a:hover {
+            color: #e11d48;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 20px;
+            border-top: 1px solid #222;
+            font-size: 0.9rem;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="logo">Showly</h1>
+            <div class="nav-links">
+                <a href="./main.html">Dashboard</a>
+                <a href="./tickets.html">My Tickets</a>
+                <a href="./contact.html">Contact</a>
+                <div class="profile-avatar">S</div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-content">
+        <div class="payment-card">
+            <h2>Complete Your Booking 💳</h2>
+
+            <div class="summary-group">
+                <p><strong>Movie:</strong> <span id="summary-movie">Loading...</span></p>
+                <p><strong>Cinema:</strong> <span id="summary-cinema">Loading...</span></p>
+                <p><strong>Date & Time:</strong> <span id="summary-time">Loading...</span></p>
+                <p><strong>Seats:</strong> <span id="summary-seats">Loading...</span></p>
+            </div>
+
+            <div class="summary-group">
+                <p>Ticket Price (<span id="seat-count">0</span> seats): <span id="base-price-display">₹0</span></p>
+                <p>Convenience Fee: <span>₹30</span></p>
+                <p>Taxes (GST): <span>₹20</span></p>
+            </div>
+            
+            <div class="final-total">
+                <p>Total Amount Payable: <span id="final-amount">₹0</span></p>
+            </div>
+
+            <button class="pay-btn" id="pay-button" disabled>Pay Now</button>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <h4>Quick Links</h4>
+                <ul>
+                    <li><a href="./showing.html">Now Showing</a></li>
+                    <li><a href="./offers.html">Exclusive Offers</a></li>
+                    <li><a href="./tickets.html">Tickets</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>About Showly</h4>
+                <ul>
+                    <li><a href="./about.html">About Us</a></li>
+                    <li><a href="./offers.html">Offers</a></li>
+                    <li><a href="./contact.html">Contact Us</a></li>
+                    <li><a href="./terms.html">Terms & Conditions</a></li>
+                    <li><a href="./privacy.html">Privacy Policy</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h4>Contact Us</h4>
+                <p>Email: support@showly.com</p>
+                <p>Phone: +91 9999999999</p>
+                <address>Chitkara University, Punjab</address>
+            </div>
+            <div class="footer-col">
+                <h4>Follow Us</h4>
+                <div class="footer-social-links">
+                    <a href="#">Facebook</a>
+                    <a href="#">Twitter</a>
+                    <a href="#">Instagram</a>
+                    <a href="#">LinkedIn</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2025 Showly. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        let bookingData = null;
+        const convenienceFee = 30;
+        const taxAmount = 20;
+        let finalPaymentAmount = 0;
+
+        function loadBookingData() {
+            // Get the JSON string from localStorage (saved by seat.html)
+            const dataString = localStorage.getItem('showlyBookingData');
+            const payButton = document.getElementById('pay-button');
+
+            if (dataString) {
+                bookingData = JSON.parse(dataString);
+                
+                // Calculate total amount
+                const basePrice = bookingData.ticketPrice;
+                finalPaymentAmount = basePrice + convenienceFee + taxAmount;
+                const seatCount = bookingData.seats.length;
+                
+                // Update HTML elements with dynamic data
+                document.getElementById('summary-movie').textContent = bookingData.movieTitle || 'N/A';
+                // Assuming cinemaDetails is "Elante Chandigarh, Screen 4 - Thu, 24 Oct 2025"
+                const [cinemaDatePart, dateDetails] = bookingData.cinemaDetails.split(' - ');
+                
+                document.getElementById('summary-cinema').textContent = cinemaDatePart || 'N/A';
+                document.getElementById('summary-time').textContent = `${dateDetails} | ${bookingData.showTime}` || 'N/A';
+                document.getElementById('summary-seats').textContent = bookingData.seats.join(', ') || 'None';
+                
+                document.getElementById('seat-count').textContent = seatCount;
+                document.getElementById('base-price-display').textContent = `₹${basePrice}`;
+                document.getElementById('final-amount').textContent = `₹${finalPaymentAmount}`;
+
+                payButton.disabled = false; // Enable button once data is loaded
+
+            } else {
+                // Handle case where no data is found (user navigated directly)
+                alert("Booking session expired or no seats selected. Please go back to select seats.");
+                payButton.textContent = "Data Missing";
+                payButton.disabled = true;
+                
+                // Set placeholders to indicate missing data
+                document.getElementById('summary-movie').textContent = 'Error';
+                document.getElementById('summary-cinema').textContent = 'Error';
+                document.getElementById('summary-time').textContent = 'Error';
+                document.getElementById('summary-seats').textContent = 'Error';
+            }
+        }
+
+        // Call the function to load and display data when the page loads
+        loadBookingData();
+
+
+        // --- RAZORPAY INTEGRATION SCRIPT ---
+
+        document.getElementById('pay-button').onclick = function(e) {
+            e.preventDefault();
+            
+            if (!bookingData || finalPaymentAmount === 0) {
+                alert("Cannot proceed with payment. Data is incomplete.");
+                return;
+            }
+
+            const amountInPaisa = finalPaymentAmount * 100;
+
+            var options = {
+                // 1. Replace with your actual Test or Live Key ID
+                "key": "YOUR_RAZORPAY_KEY_ID", 
+                "amount": amountInPaisa, // Amount in paise
+                
+                // 2. In a live system, this MUST come from your backend to be valid.
+                "order_id": "order_mock_id_" + Date.now(), 
+                
+                "name": "Showly Movie Tickets",
+                "description": `Booking for ${bookingData.movieTitle}`,
+                "image": "https://example.com/logo.png", // Your Company Logo (Placeholder)
+                "handler": function (response){
+                    // This function is called on successful payment
+                    alert("Payment successful! Razorpay ID: " + response.razorpay_payment_id);
+                    
+                    // IMPORTANT: Clear the temporary data upon successful booking
+                    localStorage.removeItem('showlyBookingData'); 
+                    
+                    // Redirect to the tickets or confirmation page
+                    window.location.href = "./tickets.html"; 
+                },
+                "prefill": {
+                    "name": "Shreya Sharma", // Replace with actual user data
+                    "email": "shreya.sharma@example.com", // Replace with actual user data
+                    "contact": "9999999999" // Replace with actual user data
+                },
+                "notes": {
+                    "movie_name": bookingData.movieTitle,
+                    "seats": bookingData.seats.join(', ')
+                },
+                "theme": {
+                    "color": "#e11d48" // Matches your Showly theme color
+                },
+                "modal": {
+                    "ondismiss": function() {
+                        console.log("Payment window closed.");
+                    }
+                }
+            };
+            var rzp1 = new Razorpay(options);
+            rzp1.open();
+        }
+    </script>
+</body>
+</html>

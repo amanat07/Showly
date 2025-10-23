@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Showly</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Segoe UI", sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        nav {
+            width: 100%;
+            background-color: #1c1c1c;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            color: #ff0000;
+            font-weight: bold;
+        }
+
+        nav ul {
+            list-style: none;
+            display: flex;
+            gap: 1rem;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: white;
+            transition: color 0.3s;
+        }
+
+        nav ul li a:hover {
+            color: #ff0000;
+        }
+
+        .login-container {
+            background-color: #1e1e1e;
+            padding: 2rem;
+            margin-top: 4rem;
+            border-radius: 10px;
+            width: 300px;
+            text-align: center;
+            box-shadow: 0 0 10px rgba(255, 0, 0, 0.3);
+        }
+
+        .login-container h2 {
+            margin-bottom: 1.5rem;
+        }
+
+        .login-container input {
+            width: 100%;
+            padding: 0.75rem;
+            margin-bottom: 1rem;
+            border: none;
+            border-radius: 5px;
+            background-color: #2a2a2a;
+            color: white;
+        }
+
+        .login-container input:focus {
+            outline: none;
+            border: 1px solid #ff0000;
+        }
+
+        .btn {
+            padding: 0.75rem 1rem;
+            background-color: #ff0000;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .btn:hover {
+            background-color: #e60000;
+        }
+        
+        .forgot-password {
+            font-size: 0.8rem;
+            text-align: right;
+            margin-bottom: 1rem;
+            display: block;
+        }
+
+        .login-container p {
+            margin-top: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .login-container a {
+            color: #ff0000;
+            text-decoration: none;
+        }
+
+        .login-container a:hover {
+            text-decoration: underline;
+        }
+
+        .or-divider {
+            margin: 1rem 0;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .google-btn {
+            background-color: white;
+            color: #121212;
+            margin-top: 0.5rem;
+        }
+
+        .google-btn:hover {
+            background-color: #f1f1f1;
+        }
+
+        .apple-btn {
+            background-color: #000;
+            color: white;
+            margin-top: 0.5rem;
+        }
+
+        .apple-btn:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <nav>
+        <div class="logo">Showly</div>
+        <ul>
+            <li><a href="landing.html">Home</a></li>
+        </ul>
+    </nav>
+
+    <div class="login-container">
+        <h2>Login to Your Account</h2>
+        <form id="login-form">
+            <input type="email" id="email" placeholder="Email" required>
+            <input type="password" id="password" placeholder="Password" required>
+            <a href="#" class="forgot-password" onclick="handleForgotPassword()">Forgot Password?</a>
+            <button type="submit" class="btn">Login</button>
+        </form>
+
+        <div class="or-divider">or</div>
+
+        <button class="btn google-btn">Login with Google</button>
+        <button class="btn apple-btn">Login with Apple</button>
+
+        <p>Don't have an account? <a href="./register.html">Sign up</a></p>
+    </div>
+
+    <script>
+        const loginForm = document.getElementById('login-form');
+
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+
+            // Get the list of all users from localStorage
+            const users = JSON.parse(localStorage.getItem('users')) || [];
+
+            // Find the user who matches the entered email
+            const user = users.find(u => u.email === email);
+
+            // Check if the user exists and the password matches
+            if (user && user.password === password) {
+                alert('Login successful!');
+                // For a real app, you would set a session token here.
+                // For this project, we can store a flag to remember the user.
+                localStorage.setItem('currentUser', JSON.stringify(user));
+                
+                // Redirect to the home page or a logged-in dashboard
+                window.location.href = './main.html'; 
+            } else {
+                alert('Invalid email or password. Please try again.');
+            }
+        });
+
+        function handleForgotPassword() {
+            const email = prompt('Please enter your email address to recover your password:');
+            if (email) {
+                const users = JSON.parse(localStorage.getItem('users')) || [];
+                const userExists = users.some(u => u.email === email);
+
+                if (userExists) {
+                    alert('A password recovery link has been sent to your email. (Note: This is a simulation, no actual email was sent.)');
+                } else {
+                    alert('This email is not registered. Please check your spelling or sign up.');
+                }
+            }
+        }
+    </script>
+
+</body>
+
+</html>
