@@ -17,6 +17,10 @@
       background-color: #111;
       color: #fff;
       line-height: 1.6;
+      /* Added for sticky footer layout */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     a {
@@ -25,10 +29,11 @@
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1000px; /* Adjusted max width for better readability of policy text */
       margin: auto;
       padding: 2rem 20px;
-      margin-top: 60px;
+      margin-top: 80px; /* Increased margin for fixed navbar */
+      flex: 1; /* Allows content to grow, pushing footer down */
     }
 
     /* Navbar */
@@ -70,6 +75,7 @@
       color: #e11d48;
     }
     
+    /* === Profile Dropdown Styles (Added/Restored) === */
     .profile-avatar {
       width: 40px;
       height: 40px;
@@ -85,24 +91,83 @@
       margin-left: 20px;
     }
 
+    .profile-dropdown-container {
+      position: relative;
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #222;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+      min-width: 150px;
+      z-index: 2000;
+      padding: 10px 0;
+      display: none; 
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .profile-dropdown.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .profile-dropdown a {
+      display: block;
+      padding: 10px 20px;
+      color: #ccc;
+      text-align: left;
+      transition: background-color 0.2s;
+      margin-left: 0;
+    }
+
+    .profile-dropdown a:hover {
+      background-color: #444;
+      color: #e11d48;
+    }
+
+    .profile-dropdown .logout {
+      border-top: 1px solid #444;
+      margin-top: 5px;
+      padding-top: 10px;
+      color: #e11d48;
+    }
+    /* === End of Profile Dropdown Styles === */
+
     /* Sections */
     .section {
-      padding: 80px 20px;
-      max-width: 1200px;
+      padding: 40px 0; /* Adjusted for better spacing */
+      max-width: 1000px;
       margin: auto;
     }
 
     .section-title {
       text-align: center;
-      font-size: 2rem;
+      font-size: 2.5rem;
+      color: #e11d48;
       margin-bottom: 2rem;
     }
 
     /* Privacy Policy Specific Styles */
+    .privacy-content {
+        background: #222;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
     .privacy-content h3 {
-        color: #e11d48;
+        color: #fff;
         margin-top: 2rem;
         margin-bottom: 1rem;
+        border-bottom: 1px solid #444;
+        padding-bottom: 5px;
+        font-size: 1.5rem;
     }
 
     .privacy-content p, .privacy-content li {
@@ -113,25 +178,10 @@
     .privacy-content ol, .privacy-content ul {
         margin-left: 2rem;
         margin-bottom: 1rem;
+        list-style-type: disc;
     }
 
-    /* Buttons */
-    .btn {
-      background: #e11d48;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-    }
-
-    .btn:hover {
-      background: #be123c;
-    }
-    
-    /* Footer */
+    /* Footer (Used consistent structure from other pages) */
     .footer {
       background: #000;
       color: #888;
@@ -181,7 +231,7 @@
 
     .footer-social-links a {
       color: #ccc;
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       margin-right: 15px;
       transition: color 0.3s;
     }
@@ -197,12 +247,6 @@
       border-top: 1px solid #222;
       font-size: 0.9rem;
     }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-    }
   </style>
 </head>
 
@@ -213,15 +257,27 @@
       <h1 class="logo">Showly</h1>
       <div class="nav-links">
         <a href="./main.html">Home</a>
+        <a href="./showing.html">Now Showing</a>
+        <a href="./offers.html">Offers</a>
+        <a href="./contact.html">Contact</a>
+        
+        <div class="profile-dropdown-container">
+            <div class="profile-avatar" onclick="toggleDropdown()">S</div>
+            <div class="profile-dropdown" id="profileDropdown">
+                <a href="./profile.html">Profile</a>
+                <a href="./tickets.html">My Tickets</a>
+                <a href="#" class="logout">Log Out</a>
+            </div>
+        </div>
       </div>
     </div>
   </nav>
 
   <div class="container">
     <section id="privacy-policy" class="section">
-      <h2 class="section-title">Privacy Policy</h2>
+      <h2 class="section-title">Privacy Policy 🔒</h2>
       <div class="privacy-content">
-        <p>Your privacy is important to us. This Privacy Policy explains how Showly ("we," "us," or "our") collects, uses, and protects your personal information when you use our website and services.</p>
+        <p>Your privacy is important to us. This **Privacy Policy** explains how Showly ("we," "us," or "our") collects, uses, and protects your personal information when you use our website and services.</p>
 
         <h3>1. Information We Collect</h3>
         <p>We collect information to provide and improve our services to you. The types of information we may collect include:</p>
@@ -250,16 +306,16 @@
         </ul>
 
         <h3>4. Data Security</h3>
-        <p>We take reasonable measures to protect your personal information from unauthorized access, use, or disclosure. We use industry-standard encryption and security protocols to safeguard your data. However, no method of transmission over the internet is 100% secure, and we cannot guarantee absolute security.</p>
+        <p>We take reasonable measures to protect your personal information from unauthorized access, use, or disclosure. We use industry-standard encryption and security protocols to safeguard your data. However, no method of transmission over the internet is **100% secure**, and we cannot guarantee absolute security.</p>
 
         <h3>5. Your Rights</h3>
-        <p>You have the right to access, update, or delete your personal information. If you wish to do so, please contact us at support@showly.com. You can also opt-out of receiving promotional emails at any time.</p>
+        <p>You have the right to access, update, or delete your personal information. If you wish to do so, please contact us at <a href="mailto:support@showly.com">support@showly.com</a>. You can also **opt-out** of receiving promotional emails at any time.</p>
 
         <h3>6. Changes to This Privacy Policy</h3>
         <p>We may update our Privacy Policy from time to time. We will notify you of any changes by posting the new policy on this page. We encourage you to review this policy periodically.</p>
 
         <h3>7. Contact Us</h3>
-        <p>If you have any questions about this Privacy Policy, please contact us at support@showly.com.</p>
+        <p>If you have any questions about this Privacy Policy, please contact us at <a href="mailto:support@showly.com">support@showly.com</a>.</p>
       </div>
     </section>
   </div>
@@ -268,20 +324,19 @@
     <div class="footer-container">
       <div class="footer-col">
         <h4>Quick Links</h4>
-        <ul>s
+        <ul>
           <li><a href="./showing.html">Now Showing</a></li>
-          <li><a href="./offers.html">Special Offers</a></li>
-          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./offers.html">Exclusive Offers</a></li>
           <li><a href="./tickets.html">My Tickets</a></li>
         </ul>
       </div>
       <div class="footer-col">
         <h4>About Showly</h4>
         <ul>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
-          <li><a href="terms.html">Terms & Conditions</a></li>
-          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./contact.html">Contact Us</a></li>
+          <li><a href="./terms.html">Terms & Conditions</a></li>
+          <li><a href="./privacy.html">Privacy Policy</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -293,9 +348,9 @@
       <div class="footer-col">
         <h4>Follow Us</h4>
         <div class="footer-social-links">
-            <a href="#">Facebook</a>
-            <a href="#">Twitter</a>
-            <a href="#">Instagram</a>
+            <a href="#">Facebook</a> |
+            <a href="#">Twitter</a> |
+            <a href="#">Instagram</a> |
             <a href="#">LinkedIn</a>
         </div>
       </div>
@@ -304,5 +359,25 @@
         <p>&copy; 2025 Showly. All rights reserved.</p>
     </div>
   </footer>
+
+  <script>
+    // Profile Dropdown JavaScript
+    function toggleDropdown() {
+        document.getElementById("profileDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+      if (!event.target.matches('.profile-avatar')) {
+        var dropdowns = document.getElementsByClassName("profile-dropdown");
+        for (var i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+  </script>
 </body>
 </html>
