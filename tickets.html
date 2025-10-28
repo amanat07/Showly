@@ -149,6 +149,16 @@
       background: #be123c;
     }
     
+    /* === Added CSS for Cancel Button === */
+    .btn-cancel {
+        background: #e11d48; 
+    }
+
+    .btn-cancel:hover {
+        background: #be123c; 
+    }
+    /* === End of Added CSS === */
+    
     .section-title {
       font-size: 2rem;
       margin-bottom: 1.5rem;
@@ -394,7 +404,10 @@
                     <p><strong>Total:</strong> ₹450</p>
                 </div>
             </div>
-        </div>
+            <div class="actions">
+                <a href="./cancel.html" class="btn btn-cancel">Cancel Ticket</a>
+            </div>
+            </div>
 
         <div class="ticket-card">
             <div class="ticket-card-header">
@@ -413,7 +426,10 @@
                     <p><strong>Total:</strong> ₹600</p>
                 </div>
             </div>
-        </div>
+            <div class="actions">
+                <a href="./cancel.html" class="btn btn-cancel">Cancel Ticket</a>
+            </div>
+            </div>
     </div>
 
     <div id="history-tickets" class="ticket-grid" style="display: none;">
