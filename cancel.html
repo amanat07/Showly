@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Showly - Confirm Cancellation</title>
+  <style>
+    /* Global Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #111;
+      color: #fff;
+      line-height: 1.6;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    .container {
+      max-width: 1000px; /* Wider container for policy text */
+      margin: auto;
+      padding: 2rem 20px;
+      margin-top: 60px; /* Offset for fixed navbar */
+    }
+
+    /* Navbar Styles */
+    .navbar {
+      background: rgba(0, 0, 0, 0.9);
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .nav-container {
+      max-width: 1200px;
+      margin: auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .logo {
+      color: #e11d48;
+      font-weight: bold;
+      font-size: 1.5rem;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+    }
+
+    .nav-links a {
+      margin-left: 20px;
+      color: #ccc;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover {
+      color: #e11d48;
+    }
+    
+    /* === Profile Icon and Dropdown Styles (FULLY RESTORED) === */
+    .profile-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: #e11d48;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: bold;
+      cursor: pointer;
+      font-size: 1.2rem;
+      color: white;
+      margin-left: 20px;
+    }
+    
+    .profile-dropdown-container {
+      position: relative;
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #222;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+      min-width: 150px;
+      z-index: 2000;
+      padding: 10px 0;
+      /* Default hidden state */
+      display: none; 
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    /* Active state for dropdown (CRUCIAL for JS to work) */
+    .profile-dropdown.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .profile-dropdown a {
+      display: block;
+      padding: 10px 20px;
+      color: #ccc;
+      text-align: left;
+      transition: background-color 0.2s;
+      margin-left: 0; /* Resetting margin from .nav-links a */
+    }
+
+    .profile-dropdown a:hover {
+      background-color: #444;
+      color: #e11d48;
+    }
+
+    .profile-dropdown .logout {
+      border-top: 1px solid #444;
+      margin-top: 5px;
+      padding-top: 10px;
+      color: #e11d48;
+    }
+    /* === End of Profile Icon and Dropdown Styles === */
+    
+    .btn {
+      background: #e11d48;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background-color 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .btn:hover {
+      background: #be123c;
+    }
+    
+    .section-title {
+      font-size: 2.5rem;
+      margin-bottom: 2rem;
+      text-align: center;
+      color: #e11d48;
+    }
+
+    /* Cancellation Policy & Confirmation Styles */
+    .policy-content {
+        background: #222;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px rgba(0, 0, 0, 0.4);
+        margin-bottom: 2rem;
+    }
+    
+    .policy-content h3 {
+        color: #fff;
+        margin-top: 1.5rem;
+        margin-bottom: 0.5rem;
+        font-size: 1.4rem;
+        border-bottom: 1px solid #444;
+        padding-bottom: 5px;
+    }
+    
+    .policy-content p, .policy-content ul {
+        margin-bottom: 1rem;
+        color: #ccc;
+    }
+
+    .policy-content strong {
+        color: #e11d48;
+    }
+
+    .policy-content ul {
+        list-style: disc;
+        margin-left: 25px;
+    }
+
+    .policy-content a {
+        color: #ffd700;
+        text-decoration: underline;
+    }
+    
+    .confirmation-box {
+        text-align: center;
+        padding: 20px;
+        background: #333;
+        border-radius: 8px;
+        margin-bottom: 2rem;
+        border: 2px solid #e11d48;
+    }
+    
+    .confirmation-box p {
+        font-size: 1.1rem;
+        margin-bottom: 1rem;
+    }
+    
+    /* Specific Button Styles */
+    .btn-cancel-confirm {
+        background: #e11d48;
+        padding: 12px 30px;
+        font-size: 1rem;
+        margin-right: 15px;
+    }
+
+    .btn-cancel-confirm:hover {
+        background: #be123c;
+    }
+    
+    .btn-back-tickets {
+        background: #555;
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+
+    .btn-back-tickets:hover {
+        background: #777;
+    }
+
+    /* Footer */
+    .footer {
+      background: #000;
+      color: #888;
+      padding: 40px 20px;
+      margin-top: 4rem;
+    }
+    
+    .footer-container {
+        max-width: 1200px;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        text-align: left;
+    }
+
+    .footer-col h4 {
+        color: #fff;
+        font-size: 1.2rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #e11d48;
+        display: inline-block;
+        padding-bottom: 5px;
+    }
+
+    .footer-col ul {
+        list-style: none;
+    }
+    
+    .footer-bottom {
+        text-align: center;
+        margin-top: 2rem;
+        padding-top: 20px;
+        border-top: 1px solid #222;
+        font-size: 0.9rem;
+    }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <h1 class="logo">Showly</h1>
+      <div class="nav-links">
+        <a href="./main.html">Home</a>
+        <a href="./showing.html">Now Showing</a>
+        <a href="./offers.html">Offers</a>
+        <a href="./contact.html">Contact</a>
+        
+        <div class="profile-dropdown-container">
+            <div class="profile-avatar" onclick="toggleDropdown()">S</div> 
+            <div class="profile-dropdown" id="profileDropdown">
+              <a href="./profile.html">Profile</a>
+              <a href="#" class="logout">Log Out</a>
+            </div>
+        </div>
+        </div>
+    </div>
+  </nav>
+
+  <div class="container">
+    <h2 class="section-title">Ticket Cancellation Request</h2>
+    
+    <div class="confirmation-box">
+        <p>⚠️ **Are you sure you want to cancel this ticket?**</p>
+        <p>Please review the policy below before confirming.</p>
+        <a href="./tickets.html" class="btn btn-cancel-confirm">Confirm Cancellation</a> 
+        <a href="./tickets.html" class="btn btn-back-tickets">Keep Ticket</a>
+    </div>
+
+    <div class="policy-content">
+        <h2 style="color: #e11d48; font-size: 1.8rem; margin-bottom: 1rem; border-bottom: 2px solid #e11d48; padding-bottom: 5px;">Refund & Cancellation Policy</h2>
+        
+        <section>
+            <h3>Ticket Cancellation & Refund Eligibility</h3>
+            <p>
+              At **SHOWLY**, we understand that plans can change. We offer users the ability to cancel tickets and request a refund, subject to the following terms and conditions:
+            </p>
+            <ul>
+              <li>**User-Initiated Cancellation:** Users may cancel their movie tickets up to **2 hours before the showtime**. A refund will be processed after deducting a minimal cancellation fee.</li>
+              <li>**Show Cancellation:** If the movie show is cancelled by the cinema or distributor, users are eligible for a **full refund** without any deductions.</li>
+              <li>**Technical Errors:** If payment is deducted but the ticket is not issued, the full amount will be automatically refunded.</li>
+              <li>**Duplicate Booking:** If the same ticket is booked more than once due to a technical issue, one of the transactions will be refunded in full.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h3>Cancellation Charges</h3>
+            <p>
+              In case of voluntary user cancellations, a small cancellation fee will apply to cover payment gateway and processing charges. **The exact deduction amount will be displayed at the time of cancellation.**
+            </p>
+        </section>
+
+        <section>
+            <h3>Refund Processing Time</h3>
+            <p>
+              Refunds will be credited back to the original mode of payment. Depending on your bank or payment provider, this may take **5 to 10 working days**.
+            </p>
+        </section>
+
+        <section>
+            <h3>Contact Support</h3>
+            <p>
+              For any refund or cancellation assistance, please contact us with your Booking/Transaction ID:
+            </p>
+            <p>Email: <a href="mailto:support@showly.com">support@showly.com</a></p>
+        </section>
+    </div>
+
+  </div>
+
+  <footer class="footer">
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="./showing.html">Now Showing</a></li>
+          <li><a href="./offers.html">Special Offers</a></li>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./tickets.html">My Tickets</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About Showly</h4>
+        <ul>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./offers.html">Offers</a></li>
+          <li><a href="./contact.html">Contact Us</a></li>
+          <li><a href="./terms.html">Terms & Conditions</a></li>
+          <li><a href="./privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <p>Email: support@showly.com</p>
+        <p>Phone: +91 9999999999</p>
+        <address>Chitkara University, Punjab</address>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="footer-social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+            <a href="#">LinkedIn</a>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 Showly. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // === Dropdown JavaScript (Restored) ===
+    function toggleDropdown() {
+        document.getElementById("profileDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+      if (!event.target.matches('.profile-avatar')) {
+        var dropdowns = document.getElementsByClassName("profile-dropdown");
+        for (var i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+    // === End of Dropdown JavaScript ===
+  </script>
+</body>
+</html>
