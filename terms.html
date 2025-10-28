@@ -17,6 +17,10 @@
       background-color: #111;
       color: #fff;
       line-height: 1.6;
+      /* Added for sticky footer layout */
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
     }
 
     a {
@@ -25,10 +29,11 @@
     }
 
     .container {
-      max-width: 1200px;
+      max-width: 1000px; /* Adjusted max width for better readability of policy text */
       margin: auto;
       padding: 2rem 20px;
-      margin-top: 60px;
+      margin-top: 80px; /* Increased margin for fixed navbar */
+      flex: 1; /* Allows content to grow, pushing footer down */
     }
 
     /* Navbar */
@@ -70,6 +75,7 @@
       color: #e11d48;
     }
     
+    /* === Profile Dropdown Styles (Added/Restored) === */
     .profile-avatar {
       width: 40px;
       height: 40px;
@@ -85,24 +91,83 @@
       margin-left: 20px;
     }
 
+    .profile-dropdown-container {
+      position: relative;
+    }
+
+    .profile-dropdown {
+      position: absolute;
+      top: 100%;
+      right: 0;
+      background: #222;
+      border-radius: 8px;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+      min-width: 150px;
+      z-index: 2000;
+      padding: 10px 0;
+      display: none; 
+      opacity: 0;
+      transform: translateY(10px);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+    }
+
+    .profile-dropdown.show {
+      display: block;
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    .profile-dropdown a {
+      display: block;
+      padding: 10px 20px;
+      color: #ccc;
+      text-align: left;
+      transition: background-color 0.2s;
+      margin-left: 0;
+    }
+
+    .profile-dropdown a:hover {
+      background-color: #444;
+      color: #e11d48;
+    }
+
+    .profile-dropdown .logout {
+      border-top: 1px solid #444;
+      margin-top: 5px;
+      padding-top: 10px;
+      color: #e11d48;
+    }
+    /* === End of Profile Dropdown Styles === */
+
     /* Sections */
     .section {
-      padding: 80px 20px;
-      max-width: 1200px;
+      padding: 40px 0; /* Adjusted for better spacing */
+      max-width: 1000px;
       margin: auto;
     }
 
     .section-title {
       text-align: center;
-      font-size: 2rem;
+      font-size: 2.5rem;
+      color: #e11d48;
       margin-bottom: 2rem;
     }
 
     /* Terms of Service Specific Styles */
+    .terms-content {
+        background: #222;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    }
+
     .terms-content h3 {
-        color: #e11d48;
+        color: #fff;
         margin-top: 2rem;
         margin-bottom: 1rem;
+        border-bottom: 1px solid #444;
+        padding-bottom: 5px;
+        font-size: 1.5rem;
     }
 
     .terms-content p, .terms-content li {
@@ -113,25 +178,10 @@
     .terms-content ol, .terms-content ul {
         margin-left: 2rem;
         margin-bottom: 1rem;
+        list-style-type: disc;
     }
 
-    /* Buttons */
-    .btn {
-      background: #e11d48;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-      text-decoration: none;
-      transition: background-color 0.3s ease;
-    }
-
-    .btn:hover {
-      background: #be123c;
-    }
-    
-    /* Footer */
+    /* Footer (Used consistent structure from other pages) */
     .footer {
       background: #000;
       color: #888;
@@ -181,7 +231,7 @@
 
     .footer-social-links a {
       color: #ccc;
-      font-size: 1.5rem;
+      font-size: 1.1rem;
       margin-right: 15px;
       transition: color 0.3s;
     }
@@ -197,12 +247,6 @@
       border-top: 1px solid #222;
       font-size: 0.9rem;
     }
-
-    @media (max-width: 768px) {
-      .nav-links {
-        display: none;
-      }
-    }
   </style>
 </head>
 
@@ -213,18 +257,30 @@
       <h1 class="logo">Showly</h1>
       <div class="nav-links">
         <a href="./main.html">Home</a>
+        <a href="./showing.html">Now Showing</a>
+        <a href="./offers.html">Offers</a>
+        <a href="./contact.html">Contact</a>
+        
+        <div class="profile-dropdown-container">
+            <div class="profile-avatar" onclick="toggleDropdown()">S</div>
+            <div class="profile-dropdown" id="profileDropdown">
+                <a href="./profile.html">Profile</a>
+                <a href="./tickets.html">My Tickets</a>
+                <a href="#" class="logout">Log Out</a>
+            </div>
+        </div>
       </div>
     </div>
   </nav>
 
   <div class="container">
     <section id="terms-of-service" class="section">
-      <h2 class="section-title">Terms of Service</h2>
+      <h2 class="section-title">Terms of Service 📜</h2>
       <div class="terms-content">
-        <p>Welcome to Showly! These Terms of Service ("Terms") govern your use of the Showly website and services. By accessing or using our platform, you agree to be bound by these Terms.</p>
+        <p>Welcome to **Showly**! These Terms of Service ("Terms") govern your use of the Showly website and services. By accessing or using our platform, you agree to be bound by these Terms.</p>
 
         <h3>1. Acceptance of Terms</h3>
-        <p>By creating an account, booking tickets, or otherwise using our services, you confirm that you have read, understood, and agree to be bound by these Terms. If you do not agree, you may not use the Showly platform.</p>
+        <p>By creating an account, booking tickets, or otherwise using our services, you confirm that you have read, understood, and agree to be bound by these **Terms**. If you do not agree, you may not use the Showly platform.</p>
 
         <h3>2. User Responsibilities</h3>
         <p>You agree to use Showly for lawful purposes only. You are responsible for all activity that occurs under your account. You must not:</p>
@@ -236,25 +292,25 @@
         </ul>
 
         <h3>3. Ticket Booking and Payments</h3>
-        <p>All ticket sales are final. Tickets once purchased on Showly cannot be exchanged, canceled, or refunded. Please ensure your movie, showtime, and seat selections are correct before confirming your booking. Showly reserves the right to charge a non-refundable convenience fee for each ticket booked online.</p>
+        <p>All ticket sales are **final**. Tickets once purchased on Showly cannot be exchanged, canceled, or refunded. Please ensure your movie, showtime, and seat selections are correct before confirming your booking. Showly reserves the right to charge a **non-refundable convenience fee** for each ticket booked online.</p>
 
         <h3>4. Intellectual Property</h3>
         <p>All content on the Showly website, including text, graphics, logos, images, and software, is our exclusive property or the property of our licensors. You may not copy, reproduce, or use our intellectual property without our prior written consent.</p>
 
         <h3>5. Disclaimers</h3>
-        <p>The Showly platform is provided "as is" and "as available" without any warranties of any kind. We do not guarantee that the site will be uninterrupted, error-free, or secure. We are not responsible for any issues arising from third-party services, including a movie theater's operational issues or cancellations.</p>
+        <p>The Showly platform is provided "**as is**" and "**as available**" without any warranties of any kind. We do not guarantee that the site will be uninterrupted, error-free, or secure. We are not responsible for any issues arising from third-party services, including a movie theater's operational issues or cancellations.</p>
 
         <h3>6. Limitation of Liability</h3>
         <p>In no event shall Showly, its creators, or its affiliates be liable for any direct, indirect, incidental, special, or consequential damages arising out of or in connection with your use of the service.</p>
 
         <h3>7. Governing Law</h3>
-        <p>These Terms are governed by the laws of India, without regard to its conflict of law provisions.</p>
+        <p>These Terms are governed by the **laws of India**, without regard to its conflict of law provisions.</p>
 
         <h3>8. Changes to Terms</h3>
         <p>We reserve the right to modify these Terms at any time. We will notify you of any changes by posting the new Terms on this page. Your continued use of the service after such changes constitutes your acceptance of the new Terms.</p>
 
         <h3>9. Contact Information</h3>
-        <p>If you have any questions about these Terms, please contact us at support@showly.com.</p>
+        <p>If you have any questions about these Terms, please contact us at <a href="mailto:support@showly.com">support@showly.com</a>.</p>
       </div>
     </section>
   </div>
@@ -265,9 +321,8 @@
         <h4>Quick Links</h4>
         <ul>
           <li><a href="./showing.html">Now Showing</a></li>
-          <li><a href="./offers.html">Special Offers</a></li>
-          <li><a href="about.html">About Us</a></li>
-          <li><a href="tickets.html">My Tickets</a></li>
+          <li><a href="./offers.html">Exclusive Offers</a></li>
+          <li><a href="./tickets.html">My Tickets</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -275,8 +330,8 @@
         <ul>
           <li><a href="./about.html">About Us</a></li>
           <li><a href="./contact.html">Contact Us</a></li>
-          <li><a href="./tos.html">Terms & Conditions</a></li>
-          <li><a href="privacy.html">Privacy Policy</a></li>
+          <li><a href="./terms.html">Terms & Conditions</a></li>
+          <li><a href="./privacy.html">Privacy Policy</a></li>
         </ul>
       </div>
       <div class="footer-col">
@@ -288,9 +343,9 @@
       <div class="footer-col">
         <h4>Follow Us</h4>
         <div class="footer-social-links">
-            <a href="#">Facebook</a>
-            <a href="#">Twitter</a>
-            <a href="#">Instagram</a>
+            <a href="#">Facebook</a> |
+            <a href="#">Twitter</a> |
+            <a href="#">Instagram</a> |
             <a href="#">LinkedIn</a>
         </div>
       </div>
@@ -299,5 +354,25 @@
         <p>&copy; 2025 Showly. All rights reserved.</p>
     </div>
   </footer>
+
+  <script>
+    // Profile Dropdown JavaScript
+    function toggleDropdown() {
+        document.getElementById("profileDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+      if (!event.target.matches('.profile-avatar')) {
+        var dropdowns = document.getElementsByClassName("profile-dropdown");
+        for (var i = 0; i < dropdowns.length; i++) {
+          var openDropdown = dropdowns[i];
+          if (openDropdown.classList.contains('show')) {
+            openDropdown.classList.remove('show');
+          }
+        }
+      }
+    }
+  </script>
 </body>
 </html>
