@@ -66,6 +66,7 @@
             color: #e11d48;
         }
 
+        /* Profile Dropdown Styles (Added for Consistency) */
         .profile-avatar {
             width: 40px;
             height: 40px;
@@ -80,6 +81,54 @@
             color: white;
             margin-left: 20px;
         }
+
+        .profile-dropdown-container {
+            position: relative;
+        }
+
+        .profile-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: #222;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.7);
+            min-width: 150px;
+            z-index: 2000;
+            padding: 10px 0;
+            display: none; 
+            opacity: 0;
+            transform: translateY(10px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+        }
+
+        .profile-dropdown.show {
+            display: block;
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        .profile-dropdown a {
+            display: block;
+            padding: 10px 20px;
+            color: #ccc;
+            text-align: left;
+            transition: background-color 0.2s;
+            margin-left: 0;
+        }
+
+        .profile-dropdown a:hover {
+            background-color: #444;
+            color: #e11d48;
+        }
+
+        .profile-dropdown .logout {
+            border-top: 1px solid #444;
+            margin-top: 5px;
+            padding-top: 10px;
+            color: #e11d48;
+        }
+        /* End of Profile Dropdown Styles */
 
         .main-content {
             flex: 1;
@@ -102,6 +151,7 @@
         .movie-info h2 {
             font-size: 2rem;
             margin-bottom: 0.5rem;
+            color: #e11d48;
         }
 
         .movie-info p {
@@ -400,7 +450,7 @@
 
         .footer-social-links a {
             color: #ccc;
-            font-size: 1.5rem;
+            font-size: 1.1rem; /* Adjusted for consistency with other pages */
             margin-right: 15px;
             transition: color 0.3s;
         }
@@ -444,16 +494,25 @@
             <h1 class="logo">Showly</h1>
             <div class="nav-links">
                 <a href="./main.html">Home</a>
-                <a href="tickets.html">My Tickets</a>
+                <a href="./showing.html">Now Showing</a>
+                <a href="./offers.html">Offers</a>
                 <a href="./contact.html">Contact</a>
-                <div class="profile-avatar">S</div>
+                
+                <div class="profile-dropdown-container">
+                    <div class="profile-avatar" onclick="toggleDropdown()">S</div>
+                    <div class="profile-dropdown" id="profileDropdown">
+                        <a href="./profile.html">Profile</a>
+                        <a href="./tickets.html">My Tickets</a>
+                        <a href="#" class="logout">Log Out</a>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>
 
     <div class="main-content">
         <div class="movie-info">
-            <h2>Son of Sardaar 2</h2>
+            <h2>Son of Sardaar 2 🍿</h2>
             <p>Elante Chandigarh, Screen 4 - Thu, 24 Oct 2025</p>
         </div>
         <div class="show-timing-container">
@@ -718,7 +777,7 @@
         </div>
         
         <div class="booking-summary">
-            <h3>Booking Summary</h3>
+            <h3>Booking Summary 🎟️</h3>
             <div class="summary-details">
                 <p>Seats Selected: <strong id="selected-seats-display">0</strong></p>
                 <p>Seat Numbers: <strong id="seat-numbers-display">None</strong></p>
@@ -729,46 +788,44 @@
     </div>
 
     <footer class="footer">
-        <div class="footer-container">
-            <div class="footer-col">
-                <h4>Quick Links</h4>
-                <ul>
-                    <li><a href="./showing.html">Now Showing</a></li>
+    <div class="footer-container">
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="./showing.html">Now Showing</a></li>
           <li><a href="./offers.html">Special Offers</a></li>
-          <li><a href="./about.html">About Us</a></li>
           <li><a href="./tickets.html">My Tickets</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>About Showly</h4>
-                <ul>
-                    <li><a href="./about.html">About Us</a></li>
-                    <li><a href="./offers.html">Offers</a></li>
-                    <li><a href="./contact.html">Contact Us</a></li>
-                    <li><a href="./terms.html">Terms & Conditions</a></li>
-                    <li><a href="./privacy.html">Privacy Policy</a></li>
-                </ul>
-            </div>
-            <div class="footer-col">
-                <h4>Contact Us</h4>
-                <p>Email: support@showly.com</p>
-                <p>Phone: +91 9999999999</p>
-                <address>Chitkara University, Punjab</address>
-            </div>
-            <div class="footer-col">
-                <h4>Follow Us</h4>
-                <div class="footer-social-links">
-                    <a href="#">Facebook</a>
-                    <a href="#">Twitter</a>
-                    <a href="#">Instagram</a>
-                    <a href="#">LinkedIn</a>
-                </div>
-            </div>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>About Showly</h4>
+        <ul>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./contact.html">Contact Us</a></li>
+          <li><a href="./terms.html">Terms & Conditions</a></li>
+          <li><a href="./privacy.html">Privacy Policy</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact Us</h4>
+        <p>Email: support@showly.com</p>
+        <p>Phone: +91 9999999999</p>
+        <address>Chitkara University, Punjab</address>
+      </div>
+      <div class="footer-col">
+        <h4>Follow Us</h4>
+        <div class="footer-social-links">
+            <a href="#">Facebook</a>
+            <a href="#">Twitter</a>
+            <a href="#">Instagram</a>
+            <a href="#">LinkedIn</a>
         </div>
-        <div class="footer-bottom">
-            <p>&copy; 2025 Showly. All rights reserved.</p>
-        </div>
-    </footer>
+      </div>
+    </div>
+    <div class="footer-bottom">
+        <p>&copy; 2025 Showly. All rights reserved.</p>
+    </div>
+  </footer>
 
     <script>
         const seats = document.querySelectorAll('.seat:not(.booked)');
@@ -786,6 +843,24 @@
 
         let selectedSeats = [];
 
+        // Profile Dropdown JavaScript (Added for Consistency)
+        function toggleDropdown() {
+            document.getElementById("profileDropdown").classList.toggle("show");
+        }
+
+        // Close the dropdown if the user clicks outside of it
+        window.onclick = function(event) {
+          if (!event.target.matches('.profile-avatar')) {
+            var dropdowns = document.getElementsByClassName("profile-dropdown");
+            for (var i = 0; i < dropdowns.length; i++) {
+              var openDropdown = dropdowns[i];
+              if (openDropdown.classList.contains('show')) {
+                openDropdown.classList.remove('show');
+              }
+            }
+          }
+        }
+        
         function getSelectedTime() {
             const selectedButton = document.querySelector('.timing-btn.selected');
             return selectedButton ? selectedButton.dataset.time : null;
