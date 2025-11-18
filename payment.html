@@ -444,62 +444,49 @@
 
         // Call the function to load and display data when the page loads
         loadBookingData();
+        document.getElementById('pay-button').onclick = async function (e) {
+        e.preventDefault();
 
-
-        // --- RAZORPAY INTEGRATION SCRIPT (Existing) ---
-
-        document.getElementById('pay-button').onclick = function(e) {
-            e.preventDefault();
-            
-            if (!bookingData || finalPaymentAmount === 0) {
-                alert("Cannot proceed with payment. Data is incomplete.");
-                return;
-            }
-
-            const amountInPaisa = finalPaymentAmount * 100;
-
-            var options = {
-                // 1. Replace with your actual Test or Live Key ID
-                "key": "YOUR_RAZORPAY_KEY_ID", 
-                "amount": amountInPaisa, // Amount in paise
-                
-                // 2. In a live system, this MUST come from your backend to be valid.
-                "order_id": "order_mock_id_" + Date.now(), 
-                
-                "name": "Showly Movie Tickets",
-                "description": `Booking for ${bookingData.movieTitle}`,
-                "image": "https://example.com/logo.png", // Your Company Logo (Placeholder)
-                "handler": function (response){
-                    // This function is called on successful payment
-                    alert("Payment successful! Razorpay ID: " + response.razorpay_payment_id);
-                    
-                    // IMPORTANT: Clear the temporary data upon successful booking
-                    localStorage.removeItem('showlyBookingData'); 
-                    
-                    // Redirect to the tickets or confirmation page
-                    window.location.href = "./tickets.html"; 
-                },
-                "prefill": {
-                    "name": "Shreya Sharma", // Replace with actual user data
-                    "email": "shreya.sharma@example.com", // Replace with actual user data
-                    "contact": "9999999999" // Replace with actual user data
-                },
-                "notes": {
-                    "movie_name": bookingData.movieTitle,
-                    "seats": bookingData.seats.join(', ')
-                },
-                "theme": {
-                    "color": "#e11d48" // Matches your Showly theme color
-                },
-                "modal": {
-                    "ondismiss": function() {
-                        console.log("Payment window closed.");
-                    }
-                }
-            };
-            var rzp1 = new Razorpay(options);
-            rzp1.open();
+        if (!bookingData || finalPaymentAmount === 0) {
+        alert("Cannot proceed. Data is incomplete.");
+        return;
         }
+
+        // 1. Create order via backend
+        const orderResponse = await fetch("http://localhost:5000/create-order", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ amount: finalPaymentAmount * 100 })
+        });
+
+        const orderData = await orderResponse.json();
+
+        if (!orderData.id) {
+        alert("Order creation failed.");
+        return;
+        }
+
+        // 2. Open Razorpay popup with backend order ID
+        const options = {
+        key: "rzp_test_RgpDbOPL0MQNmH", 
+        amount: orderData.amount,
+        currency: "INR",
+        name: "Showly Movie Tickets",
+        description: `Booking for ${bookingData.movieTitle}`,
+        order_id: orderData.id,
+
+        handler: function (response) {
+            alert("Payment Successful! Payment ID: " + response.razorpay_payment_id);
+            localStorage.removeItem("showlyBookingData");
+            window.location.href = "./tickets.html";
+        },
+
+        theme: { color: "#e11d48" }
+    };
+
+    const rzp = new Razorpay(options);
+    rzp.open();
+    };
     </script>
 </body>
 </html>
